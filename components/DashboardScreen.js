@@ -6,6 +6,9 @@ import Card from './Card';
 import Header from './Header';
 import Kpi from './Kpi';
 import Badge from './Badge';
+import Grid from './Grid';
+import CardTitle from './CardTitle';
+import BarChart from './BarChart';
 
 const DashboardScreen = ({ usuario }) => {
   const primeiroNome = usuario?.nome ? usuario.nome.split(' ')[0] : 'usuário';
@@ -43,49 +46,37 @@ const DashboardScreen = ({ usuario }) => {
         subtitle="Quarta-feira, 25 de agosto · 3 vendas nas últimas 2 horas"
       />
 
-      <View style={s.grid2}>
-        <View style={s.half}>
-          <Kpi
-            label="FATURAMENTO DO DIA"
-            value="R$ 4.280,00"
-            note="+18% vs. terça"
-            valueColor={C.text}
-          />
-        </View>
-        <View style={s.half}>
-          <Kpi
-            label="LUCRO ESTIMADO"
-            value="R$ 1.865,00"
-            note="margem de 43,6%"
-            valueColor={C.greenDark}
-          />
-        </View>
-        <View style={s.half}>
-          <Kpi label="TICKET MÉDIO" value="R$ 356,67" note="12 pedidos hoje" />
-        </View>
-        <View style={s.half}>
-          <Kpi label="PEÇAS VENDIDAS" value="22" note="UPT 1,84" />
-        </View>
-      </View>
+      <Grid>
+        <Kpi
+          label="FATURAMENTO DO DIA"
+          value="R$ 4.280,00"
+          note="+18% vs. terça"
+          valueColor={C.text}
+        />
+        <Kpi
+          label="LUCRO ESTIMADO"
+          value="R$ 1.865,00"
+          note="margem de 43,6%"
+          valueColor={C.greenDark}
+        />
+        <Kpi label="TICKET MÉDIO" value="R$ 356,67" note="12 pedidos hoje" />
+        <Kpi label="PEÇAS VENDIDAS" value="22" note="UPT 1,84" />
+      </Grid>
 
       <Card>
-        <Text style={s.cardTitle}>Tendência de curto prazo</Text>
-        <Text style={s.small}>Faturamento e lucro nos últimos 7 dias</Text>
-        <View style={s.chart}>
-          {dias.map((x) => (
-            <View key={x.d} style={s.chartCol}>
-              <View style={s.chartBars}>
-                <View
-                  style={[s.bar, { height: x.f, backgroundColor: C.blueMid }]}
-                />
-                <View
-                  style={[s.bar, { height: x.l, backgroundColor: C.green }]}
-                />
-              </View>
-              <Text style={s.chartLabel}>{x.d}</Text>
-            </View>
-          ))}
-        </View>
+        <CardTitle
+          title="Tendência de curto prazo"
+          subtitle="Faturamento e lucro nos últimos 7 dias"
+        />
+        <BarChart
+          data={dias.map((x) => ({
+            label: x.d,
+            bars: [
+              { value: x.f, color: C.blueMid },
+              { value: x.l, color: C.green },
+            ],
+          }))}
+        />
         <View style={s.insight}>
           <Text style={s.insightText}>
             <Text style={{ fontFamily: F.bold, color: C.navy }}>Insight: </Text>
@@ -96,7 +87,7 @@ const DashboardScreen = ({ usuario }) => {
       </Card>
 
       <Card>
-        <Text style={s.cardTitle}>Top 3 da semana</Text>
+        <CardTitle title="Top 3 da semana" />
         {top.map(([nome, v], i) => (
           <View key={nome} style={s.rowItem}>
             <View
@@ -113,10 +104,10 @@ const DashboardScreen = ({ usuario }) => {
       </Card>
 
       <Card>
-        <View style={s.rowBetween}>
-          <Text style={s.cardTitle}>Estoque crítico</Text>
-          <Badge text="3" type="crit" />
-        </View>
+        <CardTitle
+          title="Estoque crítico"
+          right={<Badge text="3" type="crit" />}
+        />
         {criticos.map(([nome, tam, qtd, bg, fg]) => (
           <View key={nome} style={[s.alertBox, { backgroundColor: bg }]}>
             <View>
@@ -129,7 +120,7 @@ const DashboardScreen = ({ usuario }) => {
       </Card>
 
       <Card>
-        <Text style={s.cardTitle}>Últimas transações</Text>
+        <CardTitle title="Últimas transações" />
         <FlatList
           data={transacoes}
           keyExtractor={([nome]) => nome}

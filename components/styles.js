@@ -182,6 +182,12 @@ const s = StyleSheet.create({
   },
   rowGap: { flexDirection: 'row', gap: 10, marginTop: 4 },
   divider: { height: 1, backgroundColor: C.border, marginVertical: 12 },
+  dividedItem: {
+    borderTopWidth: 1,
+    borderTopColor: C.border,
+    marginTop: 10,
+    paddingTop: 10,
+  },
   tableRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -346,6 +352,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
   },
   primaryBtnText: { fontFamily: F.bold, fontSize: 14, color: '#fff' },
+  btnDisabled: { backgroundColor: '#B6C4D8' },
 
   listItem: {
     flexDirection: 'row',
@@ -364,6 +371,7 @@ const s = StyleSheet.create({
     padding: 8,
     marginTop: 8,
   },
+  selected: { borderColor: C.blue, backgroundColor: '#EFF6FF' },
   preview: {
     height: 110,
     borderRadius: 12,

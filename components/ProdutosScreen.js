@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
 import { C } from './theme';
 import s from './styles';
 import Card from './Card';
 import Header from './Header';
 import Badge from './Badge';
+import Button from './Button';
+import LabeledValue from './LabeledValue';
 
 const ProdutosScreen = () => {
   const itens = [
@@ -82,9 +84,7 @@ const ProdutosScreen = () => {
         title="Inventário de peças"
         subtitle="6 produtos · 612 unidades em estoque · valor de venda R$ 128.450,00"
       />
-      <TouchableOpacity style={s.primaryBtn}>
-        <Text style={s.primaryBtnText}>+ Novo produto</Text>
-      </TouchableOpacity>
+      <Button title="+ Novo produto" />
 
       {itens.map(
         ([sigla, nome, tams, cat, est, preco, lucro, tipo, status]) => (
@@ -101,24 +101,14 @@ const ProdutosScreen = () => {
             </View>
             <View style={s.divider} />
             <View style={s.rowBetween}>
-              <View>
-                <Text style={s.kpiLabel}>CATEGORIA</Text>
-                <Text style={s.body}>{cat}</Text>
-              </View>
-              <View>
-                <Text style={s.kpiLabel}>ESTOQUE</Text>
-                <Text style={s.bodyBold}>{est}</Text>
-              </View>
-              <View>
-                <Text style={s.kpiLabel}>PREÇO</Text>
-                <Text style={s.body}>{preco}</Text>
-              </View>
-              <View>
-                <Text style={s.kpiLabel}>LUCRO UN.</Text>
-                <Text style={[s.bodyBold, { color: C.greenDark }]}>
-                  {lucro}
-                </Text>
-              </View>
+              <LabeledValue label="CATEGORIA" value={cat} />
+              <LabeledValue label="ESTOQUE" value={est} valueStyle={s.bodyBold} />
+              <LabeledValue label="PREÇO" value={preco} />
+              <LabeledValue
+                label="LUCRO UN."
+                value={lucro}
+                valueStyle={[s.bodyBold, { color: C.greenDark }]}
+              />
             </View>
           </Card>
         )

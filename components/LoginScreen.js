@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, Alert } from 'react-native';
 import s from './styles';
 import AuthInput from './AuthInput';
 import AuthLayout from './AuthLayout';
+import Button from './Button';
 import ErrorBox from './ErrorBox';
 
 const emailValido = (e) => /^\S+@\S+\.\S+$/.test(e);
@@ -58,9 +59,12 @@ const LoginScreen = ({ onLogin, goToSignup }) => {
         }
       />
 
-      <TouchableOpacity style={s.authBtn} onPress={entrar} activeOpacity={0.85}>
-        <Text style={s.authBtnText}>Entrar no Sistema</Text>
-      </TouchableOpacity>
+      <Button
+        variant="auth"
+        title="Entrar no Sistema"
+        onPress={entrar}
+        activeOpacity={0.85}
+      />
     </AuthLayout>
   );
 };

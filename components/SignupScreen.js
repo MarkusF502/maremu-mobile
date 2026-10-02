@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
-import s from './styles';
 import AuthInput from './AuthInput';
 import AuthLayout from './AuthLayout';
+import Button from './Button';
 
 const SignupScreen = ({ onCreate, goToLogin }) => {
   const [nome, setNome] = useState('');
@@ -58,9 +57,12 @@ const SignupScreen = ({ onCreate, goToLogin }) => {
         onSubmitEditing={criar}
       />
 
-      <TouchableOpacity style={s.authBtn} onPress={criar} activeOpacity={0.85}>
-        <Text style={s.authBtnText}>Criar Conta</Text>
-      </TouchableOpacity>
+      <Button
+        variant="auth"
+        title="Criar Conta"
+        onPress={criar}
+        activeOpacity={0.85}
+      />
     </AuthLayout>
   );
 };

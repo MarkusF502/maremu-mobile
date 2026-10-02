@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Switch } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import { View, Text, Switch } from 'react-native';
 import { C } from './theme';
 import s from './styles';
 import Card from './Card';
 import Header from './Header';
+import Button from './Button';
+import CardTitle from './CardTitle';
+import Field from './Field';
+import Input from './Input';
+import Select from './Select';
+import ReadOnlyInput from './ReadOnlyInput';
+import InfoRow from './InfoRow';
 
 const CadastroScreen = () => {
   const [vendeEmLoja, setVendeEmLoja] = useState(false);
@@ -22,58 +28,36 @@ const CadastroScreen = () => {
       />
 
       <Card>
-        <Text style={s.cardTitle}>1 Informações do produto</Text>
-        <Text style={s.label}>Nome do produto</Text>
-        <TextInput
-          style={s.input}
-          placeholder="Ex: Camiseta Oversized Bege"
-          placeholderTextColor={C.muted}
-        />
+        <CardTitle title="1 Informações do produto" />
+        <Field label="Nome do produto">
+          <Input placeholder="Ex: Camiseta Oversized Bege" />
+        </Field>
         <View style={s.rowGap}>
-          <View style={{ flex: 1 }}>
-            <Text style={s.label}>Categoria</Text>
-            <View style={s.input}>
-              <Picker
-                mode="dropdown"
-                dropdownIconColor={C.muted}
-                style={s.picker}>
-                <Picker.Item label="Camisetas" value="Camisetas" />
-                <Picker.Item label="Calças" value="Calças" />
-                <Picker.Item label="Vestidos" value="Vestidos" />
-                <Picker.Item label="Jaquetas" value="Jaquetas" />
-                <Picker.Item label="Acessórios" value="Acessórios" />
-              </Picker>
-            </View>
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text style={s.label}>Gênero</Text>
-            <View style={s.input}>
-              <Picker
-                mode="dropdown"
-                dropdownIconColor={C.muted}
-                style={s.picker}>
-                <Picker.Item label="Unissex" value="Unissex" />
-                <Picker.Item label="Masculino" value="Masculino" />
-                <Picker.Item label="Feminino" value="Feminino" />
-                <Picker.Item label="Infantil" value="Infantil" />
-              </Picker>
-            </View>
-          </View>
+          <Field label="Categoria" style={{ flex: 1 }}>
+            <Select
+              options={[
+                'Camisetas',
+                'Calças',
+                'Vestidos',
+                'Jaquetas',
+                'Acessórios',
+              ]}
+            />
+          </Field>
+          <Field label="Gênero" style={{ flex: 1 }}>
+            <Select
+              options={['Unissex', 'Masculino', 'Feminino', 'Infantil']}
+            />
+          </Field>
         </View>
-        <TouchableOpacity style={s.dashedBtn}>
-          <Text style={s.link}>+ Criar categoria</Text>
-        </TouchableOpacity>
+        <Button variant="dashed" title="+ Criar categoria" />
       </Card>
 
       <Card>
-        <View style={s.rowBetween}>
-          <Text style={s.cardTitle}>2 Definição da grade</Text>
-          <TouchableOpacity style={s.softBtn}>
-            <Text style={[s.bodyBold, { color: C.navy }]}>
-              + Adicionar variação
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <CardTitle
+          title="2 Definição da grade"
+          right={<Button variant="soft" title="+ Adicionar variação" />}
+        />
         <View style={s.rowGap}>
           {grade.map(([n, q]) => (
             <View key={n} style={s.chip}>
@@ -88,25 +72,22 @@ const CadastroScreen = () => {
       </Card>
 
       <Card>
-        <Text style={s.cardTitle}>3 Custos e preço</Text>
-        <Text style={s.label}>Custo de fábrica</Text>
-        <View style={s.input}>
-          <Text style={s.bodyBold}>R$ 71,40</Text>
-        </View>
-        <Text style={s.label}>Frete de entrada unitário</Text>
-        <View style={s.input}>
-          <Text style={s.bodyBold}>R$ 3,80</Text>
-        </View>
+        <CardTitle title="3 Custos e preço" />
+        <Field label="Custo de fábrica">
+          <ReadOnlyInput bold value="R$ 71,40" />
+        </Field>
+        <Field label="Frete de entrada unitário">
+          <ReadOnlyInput bold value="R$ 3,80" />
+        </Field>
 
         <View style={s.summary}>
-          <View style={s.rowBetween}>
-            <Text style={s.small}>Custo total unitário</Text>
-            <Text style={s.bodyBold}>R$ 75,20</Text>
-          </View>
-          <View style={[s.rowBetween, { marginTop: 6 }]}>
-            <Text style={s.small}>Preço piso sugerido</Text>
-            <Text style={[s.bodyBold, { color: C.navy }]}>R$ 101,52</Text>
-          </View>
+          <InfoRow label="Custo total unitário" value="R$ 75,20" />
+          <InfoRow
+            label="Preço piso sugerido"
+            value="R$ 101,52"
+            valueStyle={[s.bodyBold, { color: C.navy }]}
+            style={{ marginTop: 6 }}
+          />
           <Text style={[s.small, { marginTop: 8 }]}>
             Calculado sobre custo + frete com a margem mínima configurada da
             loja (35%).
@@ -123,9 +104,7 @@ const CadastroScreen = () => {
           <Text>Já vendo esse produta em minha loja</Text>
         </View>
 
-        <TouchableOpacity style={[s.primaryBtn, { marginTop: 14 }]}>
-          <Text style={s.primaryBtnText}>Cadastrar produto →</Text>
-        </TouchableOpacity>
+        <Button title="Cadastrar produto →" style={{ marginTop: 14 }} />
       </Card>
     </>
   );

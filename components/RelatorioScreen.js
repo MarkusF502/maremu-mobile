@@ -5,6 +5,10 @@ import s from './styles';
 import Card from './Card';
 import Header from './Header';
 import Kpi from './Kpi';
+import Grid from './Grid';
+import CardTitle from './CardTitle';
+import BarChart from './BarChart';
+import DividedItem from './DividedItem';
 
 const RelatorioScreen = () => {
   const abc = [
@@ -46,50 +50,41 @@ const RelatorioScreen = () => {
         note="Potencial de faturamento de 612 peças, com base nos preços atuais cadastrados."
       />
       <View style={{ height: 12 }} />
-      <View style={s.grid2}>
-        <View style={s.half}>
-          <Kpi
-            label="UPT · PEÇAS POR VENDA"
-            value="1,84"
-            note="Lucro médio por peça: R$ 84,30"
-          />
-        </View>
-        <View style={s.half}>
-          <Kpi
-            label="TICKET MÉDIO POR PEDIDO"
-            value="R$ 356,67"
-            note="Base: 148 pedidos"
-          />
-        </View>
-      </View>
+      <Grid>
+        <Kpi
+          label="UPT · PEÇAS POR VENDA"
+          value="1,84"
+          note="Lucro médio por peça: R$ 84,30"
+        />
+        <Kpi
+          label="TICKET MÉDIO POR PEDIDO"
+          value="R$ 356,67"
+          note="Base: 148 pedidos"
+        />
+      </Grid>
 
       <Card>
-        <Text style={s.cardTitle}>Curva ABC (Pareto)</Text>
-        <Text style={s.small}>
-          Classificação pelo valor de venda do estoque de cada produto
-        </Text>
-        <View style={[s.chart, { height: 130 }]}>
-          {abc.map(([nome, h, cor]) => (
-            <View key={nome} style={s.chartCol}>
-              <View style={[s.chartBars, { height: 110 }]}>
-                <View
-                  style={[
-                    s.bar,
-                    { height: h, width: 18, backgroundColor: cor },
-                  ]}
-                />
-              </View>
-              <Text style={[s.chartLabel, { fontSize: 9 }]} numberOfLines={1}>
-                {nome}
-              </Text>
-            </View>
-          ))}
-        </View>
+        <CardTitle
+          title="Curva ABC (Pareto)"
+          subtitle="Classificação pelo valor de venda do estoque de cada produto"
+        />
+        <BarChart
+          height={130}
+          barsHeight={110}
+          barWidth={18}
+          labelSize={9}
+          data={abc.map(([nome, h, cor]) => ({
+            label: nome,
+            bars: [{ value: h, color: cor }],
+          }))}
+        />
       </Card>
 
       <Card>
-        <Text style={s.cardTitle}>Composição do lucro</Text>
-        <Text style={s.small}>Pelas vendas registradas em pedidos</Text>
+        <CardTitle
+          title="Composição do lucro"
+          subtitle="Pelas vendas registradas em pedidos"
+        />
         <View style={s.stack}>
           {lucro.map(([n, p, cor]) => (
             <View key={n} style={{ flex: p, backgroundColor: cor }} />
@@ -105,7 +100,7 @@ const RelatorioScreen = () => {
       </Card>
 
       <Card>
-        <Text style={s.cardTitle}>Distribuição de estoque por nicho</Text>
+        <CardTitle title="Distribuição de estoque por nicho" />
         {estoque.map(([n, p]) => (
           <View key={n} style={s.progressRow}>
             <Text style={[s.body, { width: 84 }]}>{n}</Text>
@@ -119,10 +114,10 @@ const RelatorioScreen = () => {
       </Card>
 
       <Card>
-        <View style={s.rowBetween}>
-          <Text style={s.cardTitle}>Top peças com maior lucro</Text>
-        </View>
-        <Text style={s.small}>Lucro médio por peça em estoque: R$ 84,30</Text>
+        <CardTitle
+          title="Top peças com maior lucro"
+          subtitle="Lucro médio por peça em estoque: R$ 84,30"
+        />
         {[
           [
             'Blazer Alfaiataria Preto',
@@ -139,14 +134,7 @@ const RelatorioScreen = () => {
             '80,4%',
           ],
         ].map(([n, custo, venda, lucroUn, mk]) => (
-          <View
-            key={n}
-            style={{
-              paddingVertical: 10,
-              borderTopWidth: 1,
-              borderTopColor: C.border,
-              marginTop: 10,
-            }}>
+          <DividedItem key={n} style={{ paddingBottom: 10 }}>
             <Text style={s.bodyBold}>{n}</Text>
             <Text style={s.small}>
               Custo {custo} · Venda {venda} · Markup {mk}
@@ -154,7 +142,7 @@ const RelatorioScreen = () => {
             <Text style={[s.bodyBold, { color: C.greenDark }]}>
               Lucro un. {lucroUn}
             </Text>
-          </View>
+          </DividedItem>
         ))}
       </Card>
     </>
